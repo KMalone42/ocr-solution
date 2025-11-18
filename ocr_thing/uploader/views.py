@@ -1,39 +1,26 @@
 # uploader/views.py
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-
-from .forms import UploadFileForm, FileFieldForm  # import your actual forms
-
-
-def handle_uploaded_file(f):
-    with open("some/file/name.txt", "wb+") as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
-
-def upload_file(request):
-    if request.method == "POST":
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            handle_uploaded_file(request.FILES["file"])
-            return HttpResponseRedirect("/success/url/")
-    else:
-        form = UploadFileForm()
-    return render(request, "upload.html", {"form": form})
-
-
 from django.views.generic.edit import FormView
+from .forms import FileFieldForm
+from .models import UploadedFile
 
-
+# File upload with batch support
 class FileFieldFormView(FormView):
     form_class = FileFieldForm
-    template_name = "upload.html"  # Replace with your template.
-    success_url = "/success/url/"  # or reverse(...)
+    template_name = "upload.html"
+    success_url = "/success/url/"
 
     def form_valid(self, form):
         files = form.cleaned_data["file_field"]
         for f in files:
-            # Do something with each file.
-            handle_uploaded_file(f)
+            # Save each file to database
+            UploadedFile.objects.create(
+                file=f,
+                title=f.name  # Use filename as title, or leave blank
+            )
         return super().form_valid(form)
+
+def upload_success(request):
+    return render(request, 'success.html')
 

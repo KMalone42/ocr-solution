@@ -1,14 +1,14 @@
 # uploader/forms.py
 from django import forms
-
+from .models import UploadedFile # Referencing the class built in uploader/models.py
 
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
 
-class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
-    file = forms.FileField()
+#class UploadFileForm(forms.Form):
+    #title = forms.CharField(max_length=50)
+    #file = forms.FileField()
 
 
 class MultipleFileField(forms.FileField):

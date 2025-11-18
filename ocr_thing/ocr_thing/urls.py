@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from uploader.views import upload_file
+from uploader.views import FileFieldFormView
+from uploader.views import upload_success
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("upload/", upload_file),
+    path("upload/", FileFieldFormView.as_view(), name='upload'),
+    path("success/url/", upload_success, name='upload_success'),
 ]
