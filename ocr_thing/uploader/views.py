@@ -1,35 +1,40 @@
 # uploader/views.py
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 from .forms import FileFieldForm
 from .models import UploadedFile
+import uuid
 
 # File upload with batch support
 class FileFieldFormView(FormView):
     form_class = FileFieldForm
     template_name = "upload.html"
-    success_url = "/success/url/"
+    success_url = "/processing/url/"
 
     def form_valid(self, form):
         files = form.cleaned_data["file_field"]
 
         # Primary key for a batch
-        batch_id = str(uuid.uuid())
+        batch_id = str(uuid.uuid4()) # uuid4() generates random uuid
 
         for f in files:
             # Save each file to database
             UploadedFile.objects.create(
                 file=f,
-                title=f.name  # Use filename as title, or leave blank
+                title=f.name,  # Use filename as title, or leave blank
                 batch_id=batch_id,
-                processing_complete=False # Mark true after successful processing
+                processing_complete=False, # Mark true after successful processing
             )
+
+        # Store batch_id in session so upload_processing can access it
+        self.request.session['batch_id'] = batch_id
+
         return super().form_valid(form)
 
-def upload_success(request):
+def upload_processing(request):
     batch_id = request.session.get('batch_id')
-    return render(request, 'success.html', {'batch_id': batch_id})
+    return render(request, 'processing.html', {'batch_id': batch_id})
 
 # Listener that runs while user is in the processing session
 def check_processing_status(request, batch_id):

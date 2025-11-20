@@ -17,10 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from uploader.views import FileFieldFormView
-from uploader.views import upload_success
+from uploader.views import upload_processing
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("upload/", FileFieldFormView.as_view(), name='upload'),
-    path("success/url/", upload_success, name='upload_success'),
-]
+    path("processing/url/", upload_processing, name='upload_processing'),
+] + static(settings.STATIC_URL,
+    document_root=settings.STATIC_ROOT)

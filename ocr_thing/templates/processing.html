@@ -1,10 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Upload Successful</title>
+    <title>Processing Your Files</title>
+    <link rel="stylesheet" href="{% static 'ocr_thing/throbber.css' %}">
   </head>
   <body>
-    <h1>Files successfully uploaded!</h1>
+    <h2>Files successfully uploaded, processing now :)</h2>
+    <div class = "throbber-container">
+            <div class="throbber"></div>
+    </div>
     <p><a href="{% url 'upload' %}">Upload more files</a></p>
   </body>
 </html>

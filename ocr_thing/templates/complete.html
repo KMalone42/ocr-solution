@@ -1,31 +1,19 @@
-<html>
-<body>
+<link rel="stylesheet" href="{% static 'ocr_thing/clean-table.css' %}">
+<table>
+    <thead>
+        <tr>
+            <th>Confidence</th>
+            <th>Filename</th>
+            <th>Download</th>
+        </tr>
+    </thead>
 
-<table border="1" cellpadding="5">
-  <thead>
-    <tr>
-      <th>Confidence</th>
-      <th>Filename</th>
-      <th>Download</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr>
-      <td>0.92</td>
-      <td>image_001.png</td>
-      <td><a href="image_001.png" download>Download</a></td>
-    </tr>
-
-    <tr>
-      <td>0.87</td>
-      <td>document.pdf</td>
-      <td><a href="document.pdf" download>Download</a></td>
-    </tr>
-
-  </tbody>
+    <tbody>
+        <tr>
+            <td>95%</td>
+            <td>report.pdf</td>
+            <td><a href="#">Download</a></td>
+        </tr>
+    </tbody>
 </table>
-
-</body>
-</html>
 

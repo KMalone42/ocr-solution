@@ -1,0 +1,25 @@
+/* Center the throbber on the page */
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
+}
+
+/* Spinner circle */
+.throbber {
+    width: 64px;
+    height: 64px;
+    border: 6px solid #d0d0d0;  
+    border-top-color: #4a90e2;  /* accent color */
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+}
+
+/* Spin animation */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
